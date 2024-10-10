@@ -20,7 +20,7 @@ const navItems = [
 
 export default function HeaderNav() {
   return (
-    <div className="flex-1 flex justify-center gap-x-16 text-white text-sm font-semibold">
+    <div className="flex-1 flex justify-center gap-x-20 text-white text-sm font-semibold ml-24">
       {navItems.map((navItem) => (
         <HeaderNavItem key={navItem.id} navItem={navItem} />
       ))}
