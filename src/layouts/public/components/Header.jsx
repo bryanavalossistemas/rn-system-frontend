@@ -28,31 +28,38 @@ export default function Header() {
         Ingresar al Sistema
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <Card>
+        <DialogContent className="flex justify-center items-center">
+          <Card className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
             <CardHeader>
-              <CardTitle className="text-2xl">Login</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl text-center text-teal-600">Login</CardTitle>
+              <CardDescription className="text-center">
                 Ingresa tus credenciales para ingresar a R&N System
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Usuario</Label>
+                <Label htmlFor="email" className="text-teal-700">Usuario</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="m@example.com"
                   required
+                  className="border-gray-300 rounded-md"
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" type="password" required />
+                <Label htmlFor="password" className="text-teal-700">Contraseña</Label>
+                <Input 
+                id="password" 
+                type="password" 
+                placeholder="*********"
+                required
+                className="border-gray-300 rounded-md"
+                />
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Iniciar Sesión</Button>
+              <Button className="w-full bg-teal-600 hover:bg-teal-700 text-white">Iniciar Sesión</Button>
             </CardFooter>
           </Card>
         </DialogContent>
