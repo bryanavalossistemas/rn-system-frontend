@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import FooterLogo from "./FooterLogo";
-
 export default function Footer() {
   const copyright = new Date();
   const update = copyright.getFullYear();

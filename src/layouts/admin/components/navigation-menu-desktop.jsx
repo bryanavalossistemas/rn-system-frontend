@@ -1,36 +1,27 @@
-import { Package2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu as NavigationMenuWrapper,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Link, useLocation } from "react-router-dom";
 
 export default function NavigationMenuDesktop({ className, ...props }) {
-  const pathname = "clients";
+  const location = useLocation();
+  const pathname = location.pathname;
 
   return (
     <div className={cn("gap-x-3", className)} {...props}>
-      <Link
-        href="#"
-        className="flex items-center gap-2 text-lg font-semibold md:text-base"
-      >
-        <Package2 className="h-6 w-6" />
-        <span className="sr-only">Acme Inc</span>
-      </Link>
       <NavigationMenuWrapper>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-              <Link href="/admin/dashboard">
+              <Link to="/administrador/dashboard">
                 <Button
                   className={cn(
-                    pathname.startsWith("/admin/dashboard") &&
+                    pathname.startsWith("/administrador/dashboard") &&
                       "bg-accent text-accent-foreground"
                   )}
                   variant="ghost"
@@ -41,11 +32,101 @@ export default function NavigationMenuDesktop({ className, ...props }) {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/vendedores">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/vendedores") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Vendedores
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/clientes">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/clientes") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Clientes
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/proveedores">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/proveedor") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Proveedores
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/productos">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/productos") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Productos
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/compras">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/compras") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Compras
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/administrador/ventas">
+                <Button
+                  className={cn(
+                    pathname.startsWith("/administrador/ventas") &&
+                      "bg-accent text-accent-foreground"
+                  )}
+                  variant="ghost"
+                >
+                  Ventas
+                </Button>
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <NavigationMenuTrigger
               className={cn(
-                (pathname.startsWith("/admin/products") ||
-                  pathname.startsWith("/admin/categories") ||
-                  pathname.startsWith("/admin/purchases")) &&
+                (pathname.startsWith("/administrador/products") ||
+                  pathname.startsWith("/administrador/categories") ||
+                  pathname.startsWith("/administrador/purchases")) &&
                   "bg-accent text-accent-foreground"
               )}
             >
@@ -56,7 +137,7 @@ export default function NavigationMenuDesktop({ className, ...props }) {
                 <NavigationMenuLink asChild>
                   <Link
                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    href="/admin/products"
+                    to="/administrador/products"
                   >
                     <div className="text-sm font-medium leading-none">
                       Productos
@@ -72,7 +153,7 @@ export default function NavigationMenuDesktop({ className, ...props }) {
                 <NavigationMenuLink asChild>
                   <Link
                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    href="/admin/categories"
+                    to="/administrador/categories"
                   >
                     <div className="text-sm font-medium leading-none">
                       Categorías
@@ -88,7 +169,7 @@ export default function NavigationMenuDesktop({ className, ...props }) {
                 <NavigationMenuLink asChild>
                   <Link
                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    href="/admin/purchases"
+                    to="/administrador/purchases"
                   >
                     <div className="text-sm font-medium leading-none">
                       Compras
@@ -104,7 +185,7 @@ export default function NavigationMenuDesktop({ className, ...props }) {
                 <NavigationMenuLink asChild>
                   <Link
                     className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    href="/admin/categories"
+                    to="/administrador/categories"
                   >
                     <div className="text-sm font-medium leading-none">
                       Categorías
@@ -119,37 +200,7 @@ export default function NavigationMenuDesktop({ className, ...props }) {
                 </NavigationMenuLink>
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link href="/admin/customers">
-                <Button
-                  className={cn(
-                    pathname.startsWith("/admin/customers") &&
-                      "bg-accent text-accent-foreground"
-                  )}
-                  variant="ghost"
-                >
-                  Clientes
-                </Button>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link href="/admin/sales">
-                <Button
-                  className={cn(
-                    pathname.startsWith("/admin/sales") &&
-                      "bg-accent text-accent-foreground"
-                  )}
-                  variant="ghost"
-                >
-                  Ventas
-                </Button>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenuWrapper>
     </div>
