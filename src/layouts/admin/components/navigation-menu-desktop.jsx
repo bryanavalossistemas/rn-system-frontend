@@ -5,6 +5,8 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
 import { Link, useLocation } from "react-router-dom";
 
@@ -77,20 +79,70 @@ export default function NavigationMenuDesktop({ className, ...props }) {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link to="/administrador/productos">
-                <Button
-                  className={cn(
-                    pathname.startsWith("/administrador/productos") &&
-                      "bg-accent text-accent-foreground"
-                  )}
-                  variant="ghost"
-                >
-                  Productos
-                </Button>
-              </Link>
-            </NavigationMenuLink>
+            <NavigationMenuTrigger
+              className={cn(
+                (pathname.startsWith("/administrador/productos") ||
+                  pathname.startsWith("/administrador/categorias") ||
+                  pathname.startsWith("/administrador/marcas")) &&
+                  "bg-accent text-accent-foreground"
+              )}
+            >
+              Productos
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    to="/administrador/productos"
+                  >
+                    <div className="text-sm font-medium leading-none">
+                      Productos
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      Explore una amplia gama de categorías de productos, que
+                      satisfacen todas las necesidades y preferencias, en
+                      nuestra página intuitiva diseñada para navegar y descubrir
+                      sin esfuerzo.
+                    </p>
+                  </Link>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    to="/administrador/categorias"
+                  >
+                    <div className="text-sm font-medium leading-none">
+                      Categorías
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      Explore una amplia gama de categorías de productos, que
+                      satisfacen todas las necesidades y preferencias, en
+                      nuestra página intuitiva diseñada para navegar y descubrir
+                      sin esfuerzo.
+                    </p>
+                  </Link>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    to="/administrador/purchases"
+                  >
+                    <div className="text-sm font-medium leading-none">
+                      Marcas
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      Explore una amplia gama de marcas de productos, que
+                      satisfacen todas las necesidades y preferencias, en
+                      nuestra página intuitiva diseñada para navegar y descubrir
+                      sin esfuerzo.
+                    </p>
+                  </Link>
+                </NavigationMenuLink>
+              </ul>
+            </NavigationMenuContent>
           </NavigationMenuItem>
+
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link to="/administrador/compras">
@@ -121,86 +173,6 @@ export default function NavigationMenuDesktop({ className, ...props }) {
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
-          {/* <NavigationMenuItem>
-            <NavigationMenuTrigger
-              className={cn(
-                (pathname.startsWith("/administrador/products") ||
-                  pathname.startsWith("/administrador/categories") ||
-                  pathname.startsWith("/administrador/purchases")) &&
-                  "bg-accent text-accent-foreground"
-              )}
-            >
-              Inventario
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    to="/administrador/products"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      Productos
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Explore una amplia gama de categorías de productos, que
-                      satisfacen todas las necesidades y preferencias, en
-                      nuestra página intuitiva diseñada para navegar y descubrir
-                      sin esfuerzo.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    to="/administrador/categories"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      Categorías
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Explore una amplia gama de categorías de productos, que
-                      satisfacen todas las necesidades y preferencias, en
-                      nuestra página intuitiva diseñada para navegar y descubrir
-                      sin esfuerzo.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    to="/administrador/purchases"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      Compras
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Explore una amplia gama de categorías de productos, que
-                      satisfacen todas las necesidades y preferencias, en
-                      nuestra página intuitiva diseñada para navegar y descubrir
-                      sin esfuerzo.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    to="/administrador/categories"
-                  >
-                    <div className="text-sm font-medium leading-none">
-                      Categorías
-                    </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                      Explore una amplia gama de categorías de productos, que
-                      satisfacen todas las necesidades y preferencias, en
-                      nuestra página intuitiva diseñada para navegar y descubrir
-                      sin esfuerzo.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenuWrapper>
     </div>

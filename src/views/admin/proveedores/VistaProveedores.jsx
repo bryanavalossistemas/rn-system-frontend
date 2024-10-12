@@ -21,12 +21,12 @@ import BotonEditar from "./components/BotonEditar";
 import BotonEliminar from "./components/BotonEliminar";
 import { Search } from "lucide-react";
 import BotonCrear from "./components/BotonCrear";
-import apiCategorias from "@/api/categorias";
+import apiProveedores from "@/api/Proveedores.js";
 
-export default function VistaCategorias() {
-  const [categorias, setCategorias] = useState([]);
+export default function VistaProveedores() {
+  const [proveedores, setProveedores] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 8 });
 
   const columns = [
     {
@@ -40,7 +40,22 @@ export default function VistaCategorias() {
       cell: ({ row }) => row.getValue("nombre"),
     },
     {
-      id: "acciones",
+      accessorKey: "ruc",
+      header: "RUC",
+      cell: ({ row }) => row.getValue("ruc"),
+    },
+    {
+      accessorKey: "telefono",
+      header: "Teléfono",
+      cell: ({ row }) => row.getValue("telefono"),
+    },
+    {
+      accessorKey: "direccion",
+      header: "Dirección",
+      cell: ({ row }) => row.getValue("direccion"),
+    },
+    {
+      id: "actions",
       header: () => {
         return <span className="flex justify-end"></span>;
       },
@@ -49,13 +64,13 @@ export default function VistaCategorias() {
           <div className="flex gap-x-1 justify-end">
             <div className="hidden sm:block">
               <BotonEditar
-                categoria ={row.original}
-                obtenerCategorias ={obtenerCategorias}
+                proveedor={row.original}
+                obtenerProveedores={obtenerProveedores}
               />
             </div>
             <BotonEliminar
-              categoriaId={row.getValue("id")}
-              obtenerCategorias={obtenerCategorias}
+              proveedorId={row.getValue("id")}
+              obtenerProveedores={obtenerProveedores}
             />
           </div>
         );
@@ -64,7 +79,7 @@ export default function VistaCategorias() {
   ];
 
   const table = useReactTable({
-    data: categorias,
+    data: proveedores,
     columns,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -77,12 +92,12 @@ export default function VistaCategorias() {
     },
   });
 
-  async function obtenerCategorias() {
-    setCategorias( await apiCategorias.obtenerTodasLasCategorias());
+  async function obtenerProveedores() {
+    setProveedores(await apiProveedores.obtenerTodosLosProveedores());
   }
 
   useEffect(() => {
-    obtenerCategorias();
+    obtenerProveedores();
   }, []);
 
   return (
@@ -97,7 +112,7 @@ export default function VistaCategorias() {
                 <Input
                   className="pl-8"
                   type="search"
-                  placeholder="Buscar Categoria"
+                  placeholder="Buscar Proveedor"
                   onChange={(event) =>
                     table.setGlobalFilter(event.target.value)
                   }
@@ -106,7 +121,7 @@ export default function VistaCategorias() {
               </div>
             </div>
             <div className="hidden sm:block">
-              <BotonCrear obtenerCategorias={obtenerCategorias} />
+              <BotonCrear obtenerProveedores={obtenerProveedores} />
             </div>
           </div>
           <div className="flex-1 w-full flex flex-col gap-y-3">
