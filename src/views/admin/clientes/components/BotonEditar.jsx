@@ -23,41 +23,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { z } from "zod";
-import apiAdministrador from "@/api/Administrador";
+import apiClientes from "@/api/Clientes";
 
-export default function BotonEditar({ vendedor, obtenerVendedores }) {
+export default function BotonEditar({ cliente, obtenerClientes }) {
   const [open, setOpen] = useState(false);
   const form = useForm({
     resolver: zodResolver(
       z.object({
         nombre: z.string().min(1, {
-          message: "El nombre del vendedor es requerido",
+          message: "El nombre del cliente es requerido",
         }),
-        usuario: z.string().min(1, {
-          message: "El nombre de usuario del vendedor es requerido",
+        telefono: z.coerce.number().min(1, {
+          message: "El telefono del cliente es requerido",
         }),
-        contrasenia: z.string(),
-        dni: z.string().min(1, {
-          message: "El dni del vendedor es requerido",
-        }),
-        telefono: z.string().min(1, {
-          message: "El teléfono del vendedor es requerido",
+        ruc: z.coerce.number().min(1, {
+          message: "El RUC del cliente es requerido",
         }),
       })
     ),
     values: {
-      nombre: vendedor.nombre,
-      usuario: vendedor.usuario,
-      contrasenia: "",
-      dni: vendedor.dni,
-      telefono: vendedor.telefono,
+      nombre: cliente.nombre,
+      telefono: cliente.telefono,
+      ruc: cliente.ruc
     },
   });
 
   async function handleSubmit(data) {
-    await apiAdministrador.actualizarVendedor(vendedor.id, data);
-    toast.success("Vendedor actualizado correctamente");
-    obtenerVendedores();
+    await apiClientes.actualizarCliente(cliente.id, data);
+    toast.success("cliente actualizado correctamente");
+    obtenerClientes();
     setOpen(false);
   }
 
@@ -75,10 +69,10 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
             <Card className="w-full max-w-md bg-white shadow-lg rounded-lg">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl text-center">
-                  Editar Vendedor
+                  Editar cliente
                 </CardTitle>
                 <CardDescription className="text-center">
-                  Realice cambios del vendedor aquí. Haga clic en guardar cuando
+                  Realice cambios del cliente aquí. Haga clic en guardar cuando
                   haya terminado.
                 </CardDescription>
               </CardHeader>
@@ -86,23 +80,6 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
                 <FormField
                   control={form.control}
                   name="nombre"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nombre del vendedor</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Bryan Avalos Loa y Pardo Jesus"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="usuario"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nombre de usuario</FormLabel>
@@ -116,42 +93,25 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
                 />
                 <FormField
                   control={form.control}
-                  name="contrasenia"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Contraseña del vendedor</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="********"
-                          {...field}
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="dni"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>DNI del vendedor</FormLabel>
-                      <FormControl>
-                        <Input placeholder="75013015" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
                   name="telefono"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del vendedor</FormLabel>
+                      <FormLabel>Teléfono del cliente</FormLabel>
                       <FormControl>
                         <Input placeholder="915115894" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ruc"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>RUC del cliente</FormLabel>
+                      <FormControl>
+                        <Input placeholder="20512345678" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
