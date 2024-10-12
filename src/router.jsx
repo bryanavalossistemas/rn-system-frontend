@@ -8,7 +8,7 @@ import VistaDashboard from "@/views/admin/dashboard/VistaDashboard";
 import VistaVendedores from "@/views/admin/vendedores/VistaVendedores";
 import VistaClientes from "@/views/admin/clientes/VistaClientes";
 import VistaProductos from "@/views/admin/productos/VistaProductos";
-import VistaCategorias from "@/views/admin/VistaCategorias";
+import VistaCategorias from "@/views/admin/categorias/VistaCategorias";
 
 export default function Router() {
   return (
