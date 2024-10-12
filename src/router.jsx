@@ -9,6 +9,7 @@ import VistaVendedores from "@/views/admin/vendedores/VistaVendedores";
 import VistaClientes from "@/views/admin/clientes/VistaClientes";
 import VistaProductos from "@/views/admin/productos/VistaProductos";
 import VistaCategorias from "@/views/admin/VistaCategorias";
+import VistaProveedores from "@/views/admin/proveedores/VistaProveedores";
 
 export default function Router() {
   return (
@@ -24,6 +25,7 @@ export default function Router() {
           <Route path="/administrador/clientes" element={<VistaClientes />}/>
           <Route path="/administrador/productos" element={<VistaProductos />} />
           <Route path="/administrador/categorias" element={<VistaCategorias />}/>
+          <Route path="/administrador/proveedores" element={<VistaProveedores />}/>
         </Route>
       </Routes>
     </BrowserRouter>
