@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/card";
 import { AddButton } from "./AddButton";
 import { z } from "zod";
-import apiAdministrador from "@/api/Administrador";
+import apiClientes from "@/api/Clientes";
 
 export default function BotonCrear({ obtenerClientes }) {
   const [open, setOpen] = useState(false);
@@ -32,34 +32,26 @@ export default function BotonCrear({ obtenerClientes }) {
     resolver: zodResolver(
       z.object({
         nombre: z.string().min(1, {
-          message: "El nombre del vendedor es requerido",
+          message: "El nombre del cliente es requerido",
         }),
-        usuario: z.string().min(1, {
-          message: "El nombre de usuario del vendedor es requerido",
+        telefono: z.coerce.number().min(1, {
+          message: "El telefono del cliente es requerido",
         }),
-        contrasenia: z.string().min(1, {
-          message: "La contraseña del vendedor es requerida",
-        }),
-        dni: z.string().min(1, {
-          message: "El dni del vendedor es requerido",
-        }),
-        telefono: z.string().min(1, {
-          message: "El teléfono del vendedor es requerido",
+        ruc: z.coerce.number().min(1, {
+          message: "El RUC del cliente es requerido",
         }),
       })
     ),
     defaultValues: {
       nombre: "",
-      usuario: "",
-      contrasenia: "",
-      dni: "",
       telefono: "",
+      ruc: "",
     },
   });
 
   async function handleSubmit(datos) {
-    await apiAdministrador.crearVendedor(datos);
-    toast.success("Vendedor creado correctamente");
+    await apiClientes.crearCliente(datos);
+    toast.success("Cliente creado correctamente");
     obtenerClientes();
     setOpen(false);
   }
@@ -78,10 +70,10 @@ export default function BotonCrear({ obtenerClientes }) {
             <Card className="w-full max-w-md bg-white shadow-lg rounded-lg border">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl text-center">
-                  Crear Vendedor
+                  Crear Cliente
                 </CardTitle>
                 <CardDescription className="text-center">
-                  Agregue un vendedor aquí. Haga clic en agregar cuando haya
+                  Agregue un cliente aquí. Haga clic en agregar cuando haya
                   terminado.
                 </CardDescription>
               </CardHeader>
@@ -91,57 +83,12 @@ export default function BotonCrear({ obtenerClientes }) {
                   name="nombre"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nombre del vendedor</FormLabel>
+                      <FormLabel>Nombre del cliente</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Bryan Avalos Loa y Pardo Jesus"
+                          placeholder="Goku Fabian"
                           {...field}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="usuario"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nombre de usuario</FormLabel>
-                      <FormControl>
-                        <Input placeholder="goku123" {...field} />
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="contrasenia"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Contraseña del vendedor</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="********"
-                          {...field}
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="dni"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>DNI del vendedor</FormLabel>
-                      <FormControl>
-                        <Input placeholder="75013015" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,9 +99,22 @@ export default function BotonCrear({ obtenerClientes }) {
                   name="telefono"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del vendedor</FormLabel>
+                      <FormLabel>Teléfono del cliente</FormLabel>
                       <FormControl>
-                        <Input placeholder="915115894" {...field} />
+                        <Input placeholder="999999999" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ruc"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>RUC del cliente</FormLabel>
+                      <FormControl>
+                        <Input placeholder="20512345678" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -174,13 +134,6 @@ export default function BotonCrear({ obtenerClientes }) {
                     Guardar
                   </Button>
                 </div>
-                {/* <Button
-                  disabled={form.formState.isSubmitting}
-                  type="submit"
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white"
-                >
-                  Iniciar Sesión
-                </Button> */}
               </CardFooter>
             </Card>
           </form>

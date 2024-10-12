@@ -45,7 +45,7 @@ const AddButton = React.forwardRef(
         {...props}
       >
         <PlusCircle className="h-5 w-5" />
-        <span className="font-semibold">Crear Vendedor</span>
+        <span className="font-semibold">Crear Cliente</span>
       </button>
     );
   }

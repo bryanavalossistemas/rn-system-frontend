@@ -40,8 +40,13 @@ export default function VistaClientes() {
       cell: ({ row }) => row.getValue("nombre"),
     },
     {
+      accessorKey: "telefono",
+      header: "Teléfono",
+      cell: ({ row }) => row.getValue("telefono"),
+    },
+    {
       accessorKey: "ruc",
-      header: "Usuario",
+      header: "RUC",
       cell: ({ row }) => row.getValue("ruc"),
     },
     {
@@ -54,13 +59,13 @@ export default function VistaClientes() {
           <div className="flex gap-x-1 justify-end">
             <div className="hidden sm:block">
               <BotonEditar
-                vendedor={row.original}
-                obtenerVendedores={obtenerVendedores}
+                cliente={row.original}
+                obtenerClientes={obtenerClientes}
               />
             </div>
             <BotonEliminar
-              vendedorId={row.getValue("id")}
-              obtenerVendedores={obtenerVendedores}
+              clienteId={row.getValue("id")}
+              obtenerClientes={obtenerClientes}
             />
           </div>
         );
@@ -102,7 +107,7 @@ export default function VistaClientes() {
                 <Input
                   className="pl-8"
                   type="search"
-                  placeholder="Buscar vendedor"
+                  placeholder="Buscar Cliente"
                   onChange={(event) =>
                     table.setGlobalFilter(event.target.value)
                   }
@@ -111,7 +116,7 @@ export default function VistaClientes() {
               </div>
             </div>
             <div className="hidden sm:block">
-              <BotonCrear obtenerVendedores={obtenerVendedores} />
+              <BotonCrear obtenerClientes={obtenerClientes} />
             </div>
           </div>
           <div className="flex-1 w-full flex flex-col gap-y-3">

@@ -8,6 +8,18 @@ const findOne = async (id) => await base.get(`${endpoint}/${id}`);
 
 const crearCliente = async (payload) => await base.post(endpoint, payload);
 
-const api = { crearCliente, obtenerTodosLosClientes, findOne };
+const actualizarCliente = async (id, payload) =>
+    await base.put(`${endpoint}/${id}`, payload);
+
+const eliminarCliente = async (id) =>
+    await base.remove(`${endpoint}/${id}`);
+
+const api = { 
+    crearCliente, 
+    actualizarCliente, 
+    obtenerTodosLosClientes, 
+    eliminarCliente,
+    findOne
+};
 
 export default api;

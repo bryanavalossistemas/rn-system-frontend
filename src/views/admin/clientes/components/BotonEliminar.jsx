@@ -12,15 +12,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import apiAdministrador from "@/api/Administrador";
+import apiClientes from "@/api/Clientes";
 
-export default function BotonEliminar({ vendedorId, obtenerVendedores }) {
+export default function BotonEliminar({ clienteId, obtenerClientes }) {
   const [open, setOpen] = useState(false);
 
   async function handleClick() {
-    await apiAdministrador.eliminarVendedor(vendedorId);
-    toast.success("Vendedor eliminado correctamente");
-    obtenerVendedores();
+    await apiClientes.eliminarCliente(clienteId);
+    toast.success("Cliente eliminado correctamente");
+    obtenerClientes();
     setOpen(false);
   }
 
