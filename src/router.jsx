@@ -21,11 +21,20 @@ export default function Router() {
 
         <Route element={<AdminLayout />}>
           <Route path="/administrador/dashboard" element={<VistaDashboard />} />
-          <Route path="/administrador/vendedores" element={<VistaVendedores />}/>
-          <Route path="/administrador/clientes" element={<VistaClientes />}/>
+          <Route
+            path="/administrador/vendedores"
+            element={<VistaVendedores />}
+          />
+          <Route path="/administrador/clientes" element={<VistaClientes />} />
           <Route path="/administrador/productos" element={<VistaProductos />} />
-          <Route path="/administrador/categorias" element={<VistaCategorias />}/>
-          <Route path="/administrador/proveedores" element={<VistaProveedores />}/>
+          <Route
+            path="/administrador/categorias"
+            element={<VistaCategorias />}
+          />
+          <Route
+            path="/administrador/proveedores"
+            element={<VistaProveedores />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

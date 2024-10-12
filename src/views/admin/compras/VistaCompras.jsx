@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
-import apiVendedores from "@/api/Vendedores";
+import apiProductos from "@/api/Productos";
+import apiProveedores from "@/api/Proveedores";
+import apiCompras from "@/api/Compras";
 import Heading from "./components/Heading";
 import BotonEditar from "./components/BotonEditar";
 import BotonEliminar from "./components/BotonEliminar";
@@ -22,9 +24,12 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { formatCurrency } from "@/utils/funciones";
 
-export default function VistaVendedores() {
-  const [vendedores, setVendedores] = useState([]);
+export default function VistaCompras() {
+  const [compras, setCompras] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [proveedores, setProveedores] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 4 });
 
@@ -35,24 +40,25 @@ export default function VistaVendedores() {
       cell: ({ row }) => row.getValue("id"),
     },
     {
-      accessorKey: "nombre",
-      header: "Nombre",
-      cell: ({ row }) => row.getValue("nombre"),
+      accessorKey: "proveedor",
+      header: "Proveedor",
+      cell: ({ row }) => row.getValue("proveedor"),
     },
     {
-      accessorKey: "usuario",
-      header: "Usuario",
-      cell: ({ row }) => row.getValue("usuario"),
+      accessorKey: "fecha",
+      header: () => <div className="text-left">Fecha</div>,
+      cell: ({ row }) => (
+        <div className="text-left">{row.getValue("fecha")}</div>
+      ),
     },
     {
-      accessorKey: "dni",
-      header: "DNI",
-      cell: ({ row }) => row.getValue("dni"),
-    },
-    {
-      accessorKey: "telefono",
-      header: "Teléfono",
-      cell: ({ row }) => row.getValue("telefono"),
+      accessorKey: "total",
+      header: () => <div className="text-right">Total</div>,
+      cell: ({ row }) => (
+        <div className="text-right">
+          {formatCurrency(row.getValue("total"))}
+        </div>
+      ),
     },
     {
       id: "actions",
@@ -65,12 +71,12 @@ export default function VistaVendedores() {
             <div className="hidden sm:block">
               <BotonEditar
                 vendedor={row.original}
-                obtenerVendedores={obtenerVendedores}
+                obtenerCompras={obtenerCompras}
               />
             </div>
             <BotonEliminar
               vendedorId={row.getValue("id")}
-              obtenerVendedores={obtenerVendedores}
+              obtenerCompras={obtenerCompras}
             />
           </div>
         );
@@ -79,7 +85,7 @@ export default function VistaVendedores() {
   ];
 
   const table = useReactTable({
-    data: vendedores,
+    data: compras,
     columns,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
@@ -92,27 +98,37 @@ export default function VistaVendedores() {
     },
   });
 
-  async function obtenerVendedores() {
-    setVendedores(await apiVendedores.obtenerTodosLosVendedores());
+  async function obtenerProductos() {
+    setProductos(await apiProductos.obtenerTodosLosProductos());
+  }
+
+  async function obtenerProveedores() {
+    setProveedores(await apiProveedores.obtenerTodosLosProveedores());
+  }
+
+  async function obtenerCompras() {
+    setCompras(await apiCompras.obtenerTodasLasCompras());
   }
 
   useEffect(() => {
-    obtenerVendedores();
+    obtenerProductos();
+    obtenerProveedores();
+    obtenerCompras();
   }, []);
 
   return (
     <main className="flex-1 flex flex-col gap-y-1 sm:gap-y-4 p-1 sm:p-2">
       <Heading />
-      <div className="flex gap-x-8">
+      <div className="flex">
         <div className="flex-grow flex flex-col gap-y-4">
-          <div className="flex flex-col-reverse gap-y-1 sm:flex-row sm:justify-between sm:gap-y-0 sm:gap-x-1">
+          <div className="flex flex-col-reverse gap-y-1 sm:flex-row sm:justify-between sm:gap-y-0 sm:gap-x-2">
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   className="pl-8"
                   type="search"
-                  placeholder="Buscar vendedor"
+                  placeholder="Buscar compra"
                   onChange={(event) =>
                     table.setGlobalFilter(event.target.value)
                   }
@@ -121,7 +137,11 @@ export default function VistaVendedores() {
               </div>
             </div>
             <div className="hidden sm:block">
-              <BotonCrear obtenerVendedores={obtenerVendedores} />
+              <BotonCrear
+                obtenerCompras={obtenerCompras}
+                productos={productos}
+                proveedores={proveedores}
+              />
             </div>
           </div>
           <div className="flex-1 w-full flex flex-col gap-y-3">

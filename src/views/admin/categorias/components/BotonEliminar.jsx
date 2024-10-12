@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import apiCategoria from "@/api/categorias";
+import apiCategoria from "@/api/Categorias";
 
 export default function BotonEliminar({ categoriaId, obtenerCategorias }) {
   const [open, setOpen] = useState(false);

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/card";
 import { AddButton } from "./AddButton";
 import { z } from "zod";
-import apiCategorias from "@/api/categorias";
+import apiCategorias from "@/api/Categorias";
 
 export default function BotonCrear({ obtenerCategorias }) {
   const [open, setOpen] = useState(false);

@@ -21,7 +21,7 @@ import BotonEditar from "./components/BotonEditar";
 import BotonEliminar from "./components/BotonEliminar";
 import { Search } from "lucide-react";
 import BotonCrear from "./components/BotonCrear";
-import apiCategorias from "@/api/categorias";
+import apiCategorias from "@/api/Categorias";
 
 export default function VistaCategorias() {
   const [categorias, setCategorias] = useState([]);

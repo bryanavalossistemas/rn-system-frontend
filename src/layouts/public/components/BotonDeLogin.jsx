@@ -24,12 +24,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import apiUsuario from "@/api/Usuario";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "@/store";
+import useAutenticacionStore from "@/store/autenticacion/Autenticacion";
 
 export default function BotonDeLogin() {
   const [open, setOpen] = useState(false);
-  const authToken = useStore((state) => state.authToken);
-  const setAuthToken = useStore((state) => state.setAuthToken);
+  const authToken = useAutenticacionStore((state) => state.authToken);
+  const setAuthToken = useAutenticacionStore((state) => state.setAuthToken);
   const navigate = useNavigate();
 
   const form = useForm({

@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { AddButton } from "./AddButton";
+import { z } from "zod";
+import apiAdministrador from "@/api/Administrador";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -12,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Card,
   CardContent,
@@ -21,9 +24,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AddButton } from "./AddButton";
-import { z } from "zod";
-import apiAdministrador from "@/api/Administrador";
 
 export default function BotonCrear({ obtenerVendedores }) {
   const [open, setOpen] = useState(false);
