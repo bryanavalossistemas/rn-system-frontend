@@ -1,17 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import PublicLayout from "@/layouts/public/PublicLayout";
+import AdminLayout from "@/layouts/admin/AdminLayout";
 import MainView from "@/views/public/MainView";
 
-import AdminLayout from "@/layouts/admin/AdminLayout";
 import VistaDashboard from "@/views/admin/dashboard/VistaDashboard";
 import VistaVendedores from "@/views/admin/vendedores/VistaVendedores";
 import VistaClientes from "@/views/admin/clientes/VistaClientes";
 import VistaProductos from "@/views/admin/productos/VistaProductos";
 import VistaCategorias from "@/views/admin/categorias/VistaCategorias";
 import VistaProveedores from "@/views/admin/proveedores/VistaProveedores";
-import VistaCompras from "./views/admin/compras/VistaCompras";
 import VistaMarcas from "@/views/admin/marcas/VistaMarcas";
+import VistaCompras from "./views/admin/compras/VistaCompras";
+import VistaVentas from "./views/admin/ventas/VistaVentas";
 
 export default function Router() {
   return (
@@ -37,11 +38,9 @@ export default function Router() {
             path="/administrador/proveedores"
             element={<VistaProveedores />}
           />
-          <Route path="/administrador/marcas" element={<VistaMarcas />}/>
-          <Route
-            path="/administrador/compras"
-            element={<VistaCompras />}
-          />
+          <Route path="/administrador/marcas" element={<VistaMarcas />} />
+          <Route path="/administrador/compras" element={<VistaCompras />} />
+          <Route path="/administrador/ventas" element={<VistaVentas />} />
         </Route>
       </Routes>
     </BrowserRouter>

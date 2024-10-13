@@ -9,6 +9,7 @@ import BotonEditar from "./components/BotonEditar";
 import BotonEliminar from "./components/BotonEliminar";
 import { Search } from "lucide-react";
 import BotonCrear from "./components/BotonCrear";
+import { formatCurrency } from "@/utils/funciones";
 import {
   Table,
   TableBody,
@@ -24,7 +25,6 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { formatCurrency } from "@/utils/funciones";
 
 export default function VistaCompras() {
   const [compras, setCompras] = useState([]);
