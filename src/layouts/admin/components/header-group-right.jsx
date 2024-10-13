@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import Logout from "./Logout";
 
 export default function HeaderGroupRight({ className, ...props }) {
   return (
@@ -28,7 +29,7 @@ export default function HeaderGroupRight({ className, ...props }) {
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem> <Logout /> </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
