@@ -33,12 +33,12 @@ export default function BotonEditar({ cliente, obtenerClientes }) {
         nombre: z.string().min(1, {
           message: "El nombre del cliente es requerido",
         }),
-        telefono: z.coerce.number().min(1, {
-          message: "El telefono del cliente es requerido",
-        }),
-        ruc: z.coerce.number().min(1, {
-          message: "El RUC del cliente es requerido",
-        }),
+        telefono: z.coerce.string()
+          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
+          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
+        ruc: z.coerce.string()
+          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
+          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
       })
     ),
     values: {
