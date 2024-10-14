@@ -34,12 +34,12 @@ export default function BotonCrear({ obtenerProveedores }) {
         nombre: z.string().min(1, {
           message: "El nombre del proveedor es requerido",
         }),
-        ruc: z.coerce.string().min(1, {
-          message: "El RUC del proveedor es requerido",
-        }),
-        telefono: z.coerce.string().min(1, {
-          message: "El telefono del proveedor es requerido",
-        }),
+        ruc: z.coerce.string()
+          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
+          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
+        telefono: z.coerce.string()
+          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
+          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
         direccion: z.coerce.string().min(1, {
           message: "La direccion del proveedor es requerida",
         }),
