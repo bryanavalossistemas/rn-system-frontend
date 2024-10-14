@@ -10,6 +10,13 @@ const obtenerTodosLosProductos = async () => await base.get(endpoint);
 const actualizarProducto = async (id, formData) =>
   await base.putFormData(endpoint + `/${id}`, formData);
 
-const api = { crearProducto, obtenerTodosLosProductos, actualizarProducto };
+const eliminarProducto = async (id) => await base.remove(`${endpoint}/${id}`);
+
+const api = {
+  crearProducto,
+  obtenerTodosLosProductos,
+  actualizarProducto,
+  eliminarProducto,
+};
 
 export default api;

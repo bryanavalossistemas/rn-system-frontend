@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { DeleteButton } from "./DeleteButton";
-import apiAdministrador from "@/api/Administrador";
+import apiProductos from "@/api/Productos";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,12 +14,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-export default function BotonEliminar({ vendedorId, obtenerProductos }) {
+export default function BotonEliminar({ productoId, obtenerProductos }) {
   const [open, setOpen] = useState(false);
 
   async function handleClick() {
-    await apiAdministrador.eliminarVendedor(vendedorId);
-    toast.success("Vendedor eliminado correctamente");
+    await apiProductos.eliminarProducto(productoId);
+    toast.success("Producto eliminado correctamente");
     obtenerProductos();
     setOpen(false);
   }
