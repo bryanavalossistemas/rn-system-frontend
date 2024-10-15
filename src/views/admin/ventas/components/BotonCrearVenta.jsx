@@ -24,11 +24,19 @@ export default function BotonCrearVenta({ cliente, setCliente }) {
       toast.error("Debe seleccionar un cliente");
       return;
     }
-    const venta = await apiVentas.crearVenta({ detallesVenta, cliente });
-    setVentaPDF(venta);
-    setOpen(true);
-    toast.success("Venta creada correctamente");
-    limpiarVentasStore();
+    try {
+      const respuesta = await apiVentas.crearVenta({ detallesVenta, cliente });
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Venta creada correctamente");
+      setVentaPDF(respuesta.message);
+      setOpen(true);
+      limpiarVentasStore();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (

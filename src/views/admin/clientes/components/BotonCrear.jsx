@@ -34,12 +34,24 @@ export default function BotonCrear({ obtenerClientes }) {
         nombre: z.string().min(1, {
           message: "El nombre del cliente es requerido",
         }),
-        telefono: z.coerce.string()
-          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
-          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
-        ruc: z.coerce.string()
-          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
-          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
+        telefono: z.coerce
+          .number({
+            required_error: "El teléfono del cliente es requerido",
+            invalid_type_error: "El teléfono del cliente debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 9,
+            "El teléfono del cliente debe tener 9 dígitos"
+          ),
+        ruc: z.coerce
+          .number({
+            required_error: "El RUC del cliente es requerido",
+            invalid_type_error: "El RUC del cliente debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 11,
+            "El RUC del cliente debe tener 11 dígitos"
+          ),
       })
     ),
     defaultValues: {
@@ -50,10 +62,18 @@ export default function BotonCrear({ obtenerClientes }) {
   });
 
   async function handleSubmit(datos) {
-    await apiClientes.crearCliente(datos);
-    toast.success("Cliente creado correctamente");
-    obtenerClientes();
-    setOpen(false);
+    try {
+      const respuesta = await apiClientes.crearCliente(datos);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Cliente creado correctamente");
+      setOpen(false);
+      obtenerClientes();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -86,7 +106,7 @@ export default function BotonCrear({ obtenerClientes }) {
                       <FormLabel>Nombre del cliente</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Goku Fabian"
+                          placeholder="Representaciones Nataly S.A.C"
                           {...field}
                         />
                       </FormControl>
@@ -101,7 +121,11 @@ export default function BotonCrear({ obtenerClientes }) {
                     <FormItem>
                       <FormLabel>Teléfono del cliente</FormLabel>
                       <FormControl>
-                        <Input placeholder="999999999" {...field} />
+                        <Input
+                          placeholder="915115894"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -114,7 +138,11 @@ export default function BotonCrear({ obtenerClientes }) {
                     <FormItem>
                       <FormLabel>RUC del cliente</FormLabel>
                       <FormControl>
-                        <Input placeholder="20512345678" {...field} />
+                        <Input
+                          placeholder="20600007522"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

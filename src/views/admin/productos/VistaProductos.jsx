@@ -24,6 +24,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { formatCurrency } from "@/utils/funciones";
 
 export default function VistaProductos() {
   const [productos, setProductos] = useState([]);
@@ -67,19 +68,27 @@ export default function VistaProductos() {
       cell: ({ row }) => row.getValue("marca"),
     },
     {
+      accessorKey: "stock",
+      header: () => <div className="text-center">Stock</div>,
+      cell: ({ row }) => <div className="text-center">{row.getValue("stock")}</div>,
+    },
+    {
       accessorKey: "precioCosto",
-      header: "Precio Costo",
-      cell: ({ row }) => row.getValue("precioCosto"),
+      header: () => <div className="text-right">Precio Costo</div>,
+      cell: ({ row }) => (
+        <div className="text-right">
+          {formatCurrency(row.getValue("precioCosto"))}
+        </div>
+      ),
     },
     {
       accessorKey: "precioVenta",
-      header: "Precio Venta",
-      cell: ({ row }) => row.getValue("precioVenta"),
-    },
-    {
-      accessorKey: "stock",
-      header: "Stock",
-      cell: ({ row }) => row.getValue("stock"),
+      header: () => <div className="text-right">Precio Venta</div>,
+      cell: ({ row }) => (
+        <div className="text-right">
+          {formatCurrency(row.getValue("precioVenta"))}
+        </div>
+      ),
     },
     {
       id: "actions",

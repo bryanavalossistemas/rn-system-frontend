@@ -61,10 +61,12 @@ export default function VistaVentas() {
   }, []);
 
   return (
-    <div className="flex-1 flex py-1 pl-1 sm:p-2 gap-x-2">
+    <div className="flex-1 flex py-1 pl-1 sm:p-2 gap-x-2 overflow-auto">
       <Card className="basis-4/4 pr-1 p-1 sm:p-2 rounded-md sm:basis-3/4 flex flex-col gap-y-1 sm:gap-y-2">
         <BarraDeBusqueda tabla={tabla} />
-        <ListaDeProductos tabla={tabla} />
+        <div className="overflow-y-auto">
+          <ListaDeProductos tabla={tabla} />
+        </div>
       </Card>
       <div className="sm:basis-1/4">
         <CarritoVenta clientes={clientes} />

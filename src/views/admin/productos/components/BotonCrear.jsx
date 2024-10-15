@@ -53,15 +53,35 @@ export default function BotonCrear({ obtenerProductos, categorias, marcas }) {
         nombre: z.string().min(1, {
           message: "El nombre del producto es requerido",
         }),
-        precioCosto: z.coerce.number().min(1, {
-          message: "El precio de costo del producto es requerido",
-        }),
-        precioVenta: z.coerce.number().min(1, {
-          message: "El precio de venta del producto es requerido",
-        }),
-        stock: z.coerce.number().min(1, {
-          message: "El stock del producto es requerido",
-        }),
+        precioCosto: z.coerce
+          .number({
+            required_error: "El precio de costo del producto es requerido",
+            invalid_type_error:
+              "El precio de costo del producto debe ser un número",
+          })
+          .positive({
+            message: "El precio de costo debe ser mayor a 0",
+          }),
+        precioVenta: z.coerce
+          .number({
+            required_error: "El precio de venta del producto es requerido",
+            invalid_type_error:
+              "El precio de venta del producto debe ser un número",
+          })
+          .positive({
+            message: "El precio de venta debe ser mayor a 0",
+          }),
+        stock: z.coerce
+          .number({
+            required_error: "El stock del producto es requerido",
+            invalid_type_error: "El stock del producto debe ser un número",
+          })
+          .int({
+            message: "El precio de venta debe ser un numero entero",
+          })
+          .positive({
+            message: "El precio de venta debe ser mayor a 0",
+          }),
         categoriaId: z.coerce.number().min(1, {
           message: "La categoría del producto es requerida",
         }),
@@ -75,12 +95,16 @@ export default function BotonCrear({ obtenerProductos, categorias, marcas }) {
       precioCosto: "",
       precioVenta: "",
       stock: "",
-      categoriaId: 0,
-      marcaId: 0,
+      categoriaId: "",
+      marcaId: "",
     },
   });
 
   async function handleSubmit(datos) {
+    if (!file) {
+      toast.error("La imagen del producto es obligatoria");
+      return;
+    }
     const formData = new FormData();
     formData.append("nombre", datos.nombre);
     formData.append("precioCosto", datos.precioCosto.toString());
@@ -90,10 +114,10 @@ export default function BotonCrear({ obtenerProductos, categorias, marcas }) {
     formData.append("marcaId", datos.marcaId.toString());
     formData.append("image", file);
     await apiProductos.crearProducto(formData);
-    toast.success("Producto creado correctamente");
-    obtenerProductos();
     setFile();
+    toast.success("Producto creado correctamente");
     setOpen(false);
+    obtenerProductos();
   }
 
   function onSelectFile(e) {

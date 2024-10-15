@@ -34,14 +34,26 @@ export default function BotonCrear({ obtenerProveedores }) {
         nombre: z.string().min(1, {
           message: "El nombre del proveedor es requerido",
         }),
-        ruc: z.coerce.string()
-          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
-          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
-        telefono: z.coerce.string()
-          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
-          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
-        direccion: z.coerce.string().min(1, {
-          message: "La direccion del proveedor es requerida",
+        ruc: z.coerce
+          .number({
+            required_error: "El RUC del proveedor es requerido",
+            invalid_type_error: "El RUC del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 11,
+            "El RUC del proveedor debe tener 11 dígitos"
+          ),
+        telefono: z.coerce
+          .number({
+            required_error: "El telefono del proveedor es requerido",
+            invalid_type_error: "El telefono del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 7,
+            "El teléfono del proveedor debe tener 7 dígitos"
+          ),
+        direccion: z.string().min(1, {
+          message: "La dirección del proveedor es requerida",
         }),
       })
     ),
@@ -54,10 +66,18 @@ export default function BotonCrear({ obtenerProveedores }) {
   });
 
   async function handleSubmit(datos) {
-    await apiProveedores.crearProveedor(datos);
-    toast.success("Proveedor creado correctamente");
-    obtenerProveedores();
-    setOpen(false);
+    try {
+      const respuesta = await await apiProveedores.crearProveedor(datos);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Proveedor creado correctamente");
+      setOpen(false);
+      obtenerProveedores();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -89,10 +109,7 @@ export default function BotonCrear({ obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>Nombre del proveedor</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Mauricio R"
-                          {...field}
-                        />
+                        <Input placeholder="Mauricio R" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -105,7 +122,11 @@ export default function BotonCrear({ obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>RUC del proveedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="12345678901" {...field} />
+                        <Input
+                          placeholder="20600007522"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -118,7 +139,7 @@ export default function BotonCrear({ obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>Teléfono del proveedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="999888777" {...field} />
+                        <Input placeholder="4746922" {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -131,7 +152,10 @@ export default function BotonCrear({ obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>Dirección del proveedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="av. La Molina 12345" {...field} />
+                        <Input
+                          placeholder="Av. Aviación 721, La Victoria"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -60,28 +60,28 @@ export default function VistaCompras() {
         </div>
       ),
     },
-    {
-      id: "actions",
-      header: () => {
-        return <span className="flex justify-end"></span>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="flex gap-x-1 justify-end">
-            <div className="hidden sm:block">
-              <BotonEditar
-                vendedor={row.original}
-                obtenerCompras={obtenerCompras}
-              />
-            </div>
-            <BotonEliminar
-              vendedorId={row.getValue("id")}
-              obtenerCompras={obtenerCompras}
-            />
-          </div>
-        );
-      },
-    },
+    // {
+    //   id: "actions",
+    //   header: () => {
+    //     return <span className="flex justify-end"></span>;
+    //   },
+    //   cell: ({ row }) => {
+    //     return (
+    //       <div className="flex gap-x-1 justify-end">
+    //         <div className="hidden sm:block">
+    //           <BotonEditar
+    //             vendedor={row.original}
+    //             obtenerCompras={obtenerCompras}
+    //           />
+    //         </div>
+    //         <BotonEliminar
+    //           vendedorId={row.getValue("id")}
+    //           obtenerCompras={obtenerCompras}
+    //         />
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
 
   const table = useReactTable({

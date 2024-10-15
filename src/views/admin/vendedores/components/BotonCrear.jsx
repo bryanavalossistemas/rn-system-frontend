@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { AddButton } from "./AddButton";
 import { z } from "zod";
-import apiAdministrador from "@/api/Administrador";
+import apiVendedor from "@/api/Vendedores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
@@ -40,12 +40,24 @@ export default function BotonCrear({ obtenerVendedores }) {
         contrasenia: z.string().min(1, {
           message: "La contraseña del vendedor es requerida",
         }),
-        dni: z.string().min(1, {
-          message: "El dni del vendedor es requerido",
-        }),
-        telefono: z.string().min(1, {
-          message: "El teléfono del vendedor es requerido",
-        }),
+        dni: z.coerce
+          .number({
+            required_error: "El DNI del vendedor es requerido",
+            invalid_type_error: "El DNI del vendedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 8,
+            "El DNI del vendedor debe tener 8 dígitos"
+          ),
+        telefono: z.coerce
+          .number({
+            required_error: "El Teléfono del vendedor es requerido",
+            invalid_type_error: "El Teléfono del vendedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 9,
+            "El Teléfono del vendedor debe tener 9 dígitos"
+          ),
       })
     ),
     defaultValues: {
@@ -58,10 +70,18 @@ export default function BotonCrear({ obtenerVendedores }) {
   });
 
   async function handleSubmit(datos) {
-    await apiAdministrador.crearVendedor(datos);
-    toast.success("Vendedor creado correctamente");
-    obtenerVendedores();
-    setOpen(false);
+    try {
+      const respuesta = await apiVendedor.crearVendedor(datos);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Vendedor creado correctamente");
+      setOpen(false);
+      obtenerVendedores();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -69,13 +89,13 @@ export default function BotonCrear({ obtenerVendedores }) {
       <DialogTrigger asChild>
         <AddButton onClick={() => form.reset()} />
       </DialogTrigger>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="overflow-auto">
         <Form {...form}>
           <form
-            className="flex flex-col gap-y-3"
+            className="flex flex-col gap-y-3 max-w-xl max-h-[98vh]"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <Card className="w-full max-w-md bg-white shadow-lg rounded-lg border">
+            <Card className="">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl text-center">
                   Crear Vendedor
@@ -141,7 +161,11 @@ export default function BotonCrear({ obtenerVendedores }) {
                     <FormItem>
                       <FormLabel>DNI del vendedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="75013015" {...field} />
+                        <Input
+                          placeholder="75013015"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -154,7 +178,11 @@ export default function BotonCrear({ obtenerVendedores }) {
                     <FormItem>
                       <FormLabel>Teléfono del vendedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="915115894" {...field} />
+                        <Input
+                          placeholder="915115894"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
