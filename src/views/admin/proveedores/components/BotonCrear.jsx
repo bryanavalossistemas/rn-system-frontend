@@ -67,7 +67,7 @@ export default function BotonCrear({ obtenerProveedores }) {
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await await apiProveedores.crearProveedor(datos);
+      const respuesta = await apiProveedores.crearProveedor(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;

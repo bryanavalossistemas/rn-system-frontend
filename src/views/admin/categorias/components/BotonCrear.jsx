@@ -42,10 +42,18 @@ export default function BotonCrear({ obtenerCategorias }) {
   });
 
   async function handleSubmit(datos) {
-    await apiCategorias.crearCategoria(datos);
-    toast.success("Categoria creada correctamente");
-    obtenerCategorias();
-    setOpen(false);
+    try {
+      const respuesta = await apiCategorias.crearCategoria(datos);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Categoría creada correctamente");
+      setOpen(false);
+      obtenerCategorias();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -77,10 +85,7 @@ export default function BotonCrear({ obtenerCategorias }) {
                     <FormItem>
                       <FormLabel>Nombre de la Categoria</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Categoria"
-                          {...field}
-                        />
+                        <Input placeholder="Categoria" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
