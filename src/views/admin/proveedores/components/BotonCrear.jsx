@@ -49,8 +49,8 @@ export default function BotonCrear({ obtenerProveedores }) {
             invalid_type_error: "El telefono del proveedor debe ser un número",
           })
           .refine(
-            (val) => `${val}`.length === 7,
-            "El teléfono del proveedor debe tener 7 dígitos"
+            (val) => `${val}`.length === 9,
+            "El teléfono del proveedor debe tener 9 dígitos"
           ),
         direccion: z.string().min(1, {
           message: "La dirección del proveedor es requerida",

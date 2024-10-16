@@ -33,12 +33,24 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
         nombre: z.string().min(1, {
           message: "El nombre del proveedor es requerido",
         }),
-        ruc: z.coerce.string()
-          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
-          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
-        telefono: z.coerce.string()
-          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
-          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
+          ruc: z.coerce
+          .number({
+            required_error: "El RUC del proveedor es requerido",
+            invalid_type_error: "El RUC del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 11,
+            "El RUC del proveedor debe tener 11 dígitos"
+          ),
+        telefono: z.coerce
+          .number({
+            required_error: "El telefono del proveedor es requerido",
+            invalid_type_error: "El telefono del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 9,
+            "El teléfono del proveedor debe tener 9 dígitos"
+          ),
         direccion: z.coerce.string().min(1, {
           message: "La direccion del proveedor es requerida",
         }),
@@ -55,7 +67,7 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
   async function handleSubmit(data) {
     await apiProveedores.actualizarProveedor(proveedor.id, data);
     toast.success("proveedor actualizado correctamente");
-    obtenerProveedores();
+      obtenerProveedores();
     setOpen(false);
   }
 
