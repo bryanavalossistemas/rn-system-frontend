@@ -41,10 +41,19 @@ export default function BotonEditar({ marca, obtenerMarcas }) {
   });
 
   async function handleSubmit(data) {
-    await apiMarcas.actualizarMarca(marca.id, data);
-    toast.success("Marca actualizada correctamente");
-    obtenerMarcas();
-    setOpen(false);
+    try {
+      const respuesta = await apiMarcas.actualizarMarca(marca.id, data);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Marca actualizada correctamente");
+      setOpen(false);
+      obtenerMarcas();
+    } catch (error) {
+      toast.error(error.message);
+    }
+
   }
 
   return (

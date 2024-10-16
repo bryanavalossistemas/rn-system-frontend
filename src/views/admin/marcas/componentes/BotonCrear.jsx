@@ -42,10 +42,18 @@ export default function BotonCrear({ obtenerMarcas }) {
   });
 
   async function handleSubmit(datos) {
-    await apiMarcas.crearMarca(datos);
-    toast.success("Marca creada correctamente");
-    obtenerMarcas();
-    setOpen(false);
+    try {
+      const respuesta = await apiMarcas.crearMarca(datos);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Marca creada correctamente");
+      setOpen(false);
+      obtenerMarcas();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (

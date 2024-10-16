@@ -35,16 +35,25 @@ export default function BotonEditar({ categoria, obtenerCategorias }) {
         }),
       })
     ),
-    values: {
+    values: { 
       nombre: categoria.nombre,
     },
   });
 
   async function handleSubmit(data) {
-    await apiCategorias.actualizarCategoria(categoria.id, data);
-    toast.success("categoria actualizada correctamente");
-    obtenerCategorias();
-    setOpen(false);
+    try {
+      const respuesta = await apiCategorias.actualizarCategoria(categoria.id, data);
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Categoria actualizada correctamente");
+      setOpen(false);
+      obtenerCategorias();
+    } catch (error) {
+      toast.error(error.message);
+    }
+
   }
 
   return (

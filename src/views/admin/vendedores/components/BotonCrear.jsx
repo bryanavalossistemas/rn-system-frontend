@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AddButton } from "./AddButton";
 import { z } from "zod";
 import apiVendedor from "@/api/Vendedores";
+import apiAdministrador from "@/api/Administrador";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
@@ -71,7 +72,7 @@ export default function BotonCrear({ obtenerVendedores }) {
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await apiVendedor.crearVendedor(datos);
+      const respuesta = await apiAdministrador.crearVendedor(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;
