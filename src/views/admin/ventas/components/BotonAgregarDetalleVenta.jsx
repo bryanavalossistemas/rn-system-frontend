@@ -21,10 +21,10 @@ export default function BotonAgregarDetalleVenta({ producto }) {
         toast.success("Detalle de venta agregado correctamente");
       }}
       type="button"
-      className="rounded-full w-14 h-14 p-0 bg-primary/15 hover:scale-110 transition-transform"
+      className="rounded-full w-8 h-8 p-0 bg-primary/15 hover:scale-110 transition-transform"
     >
-      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-        <Plus className="w-8 h-8" />
+      <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+        <Plus className="w-6 h-6" />
       </div>
     </Button>
   );

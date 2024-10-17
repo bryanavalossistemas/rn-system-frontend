@@ -7,7 +7,6 @@ import { useState } from "react";
 import { AddButton } from "./AddButton";
 import { z } from "zod";
 import apiVendedor from "@/api/Vendedores";
-import apiAdministrador from "@/api/Administrador";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
@@ -50,14 +49,14 @@ export default function BotonCrear({ obtenerVendedores }) {
             (val) => `${val}`.length === 8,
             "El DNI del vendedor debe tener 8 dígitos"
           ),
-        telefono: z.coerce
+        celular: z.coerce
           .number({
-            required_error: "El Teléfono del vendedor es requerido",
-            invalid_type_error: "El Teléfono del vendedor debe ser un número",
+            required_error: "El celular del vendedor es requerido",
+            invalid_type_error: "El celular del vendedor debe ser un número",
           })
           .refine(
             (val) => `${val}`.length === 9,
-            "El Teléfono del vendedor debe tener 9 dígitos"
+            "El celular del vendedor debe tener 9 dígitos"
           ),
       })
     ),
@@ -66,13 +65,13 @@ export default function BotonCrear({ obtenerVendedores }) {
       usuario: "",
       contrasenia: "",
       dni: "",
-      telefono: "",
+      celular: "",
     },
   });
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await apiAdministrador.crearVendedor(datos);
+      const respuesta = await apiVendedor.crearVendedor(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;
@@ -174,10 +173,10 @@ export default function BotonCrear({ obtenerVendedores }) {
                 />
                 <FormField
                   control={form.control}
-                  name="telefono"
+                  name="celular"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del vendedor</FormLabel>
+                      <FormLabel>Celular del vendedor</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="915115894"

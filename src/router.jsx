@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import PublicLayout from "@/layouts/public/PublicLayout";
 import AdminLayout from "@/layouts/admin/AdminLayout";
+import VendedorLayout from "@/layouts/vendedor/VendedorLayout";
 import MainView from "@/views/public/MainView";
 
 import VistaDashboard from "@/views/admin/dashboard/VistaDashboard";
@@ -41,6 +42,10 @@ export default function Router() {
           <Route path="/administrador/marcas" element={<VistaMarcas />} />
           <Route path="/administrador/compras" element={<VistaCompras />} />
           <Route path="/administrador/ventas" element={<VistaVentas />} />
+        </Route>
+
+        <Route element={<VendedorLayout />}>
+          <Route path="/vendedor/ventas" element={<VistaVentas />} />
         </Route>
       </Routes>
     </BrowserRouter>

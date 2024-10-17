@@ -105,8 +105,8 @@ export default function CarritoVenta({ clientes }) {
                         onSelect={(clienteNombre) => {
                           setCliente(
                             clienteNombre === clientePivote.nombre
-                              ? ""
-                              : clientePivote
+                              ? clientePivote
+                              : ""
                           );
                           setOpen(false);
                         }}
@@ -133,7 +133,7 @@ export default function CarritoVenta({ clientes }) {
               <DetalleVenta key={detalleVenta.id} detalleVenta={detalleVenta} />
             ))}
           </ul>
-          <div className="flex flex-col gap-y-2 pr-2 mt-auto">
+          <div className="flex flex-col gap-y-2 pr-2 mt-auto text-sm">
             <ul className="flex flex-col gap-y-2">
               <li className="flex items-center justify-between">
                 <p className="text-muted-foreground">Subtotal</p>
@@ -152,23 +152,6 @@ export default function CarritoVenta({ clientes }) {
           </div>
         </Card>
       </div>
-      {/* <button
-        type="button"
-        onClick={() => setMostrarCarrito(true)}
-        className="sm:hidden fixed bottom-0 right-0 w-10 h-10 bg-primary text-primary-foreground text-xl rounded-tl-sm z-30 flex items-center justify-center"
-      >
-        <ShoppingCart className="w-6 h-6" />
-      </button>
-      <div
-        role="button"
-        onClick={() => setMostrarCarrito(false)}
-        className={cn(
-          "fixed z-40 xl:hidden transition-all",
-          mostrarCarrito
-            ? "w-full h-full right-0 top-0 backdrop-blur-sm"
-            : "w-0 h-0 left-0 bottom-0 delay-300"
-        )}
-      /> */}
     </>
   );
 }

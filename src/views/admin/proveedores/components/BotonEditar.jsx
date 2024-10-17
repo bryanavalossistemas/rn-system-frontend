@@ -33,7 +33,7 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
         nombre: z.string().min(1, {
           message: "El nombre del proveedor es requerido",
         }),
-          ruc: z.coerce
+        ruc: z.coerce
           .number({
             required_error: "El RUC del proveedor es requerido",
             invalid_type_error: "El RUC del proveedor debe ser un número",
@@ -44,15 +44,24 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
           ),
         telefono: z.coerce
           .number({
-            required_error: "El telefono del proveedor es requerido",
-            invalid_type_error: "El telefono del proveedor debe ser un número",
+            required_error: "El teléfono del proveedor es requerido",
+            invalid_type_error: "El teléfono del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 7,
+            "El teléfono del proveedor debe tener 7 dígitos"
+          ),
+        celular: z.coerce
+          .number({
+            required_error: "El celular del proveedor es requerido",
+            invalid_type_error: "El celular del proveedor debe ser un número",
           })
           .refine(
             (val) => `${val}`.length === 9,
-            "El teléfono del proveedor debe tener 9 dígitos"
+            "El celular del proveedor debe tener 9 dígitos"
           ),
-        direccion: z.coerce.string().min(1, {
-          message: "La direccion del proveedor es requerida",
+        direccion: z.string().min(1, {
+          message: "La dirección del proveedor es requerida",
         }),
       })
     ),
@@ -60,15 +69,27 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
       nombre: proveedor.nombre,
       ruc: proveedor.ruc,
       telefono: proveedor.telefono,
+      celular: proveedor.celular,
       direccion: proveedor.direccion,
     },
   });
 
   async function handleSubmit(data) {
-    await apiProveedores.actualizarProveedor(proveedor.id, data);
-    toast.success("proveedor actualizado correctamente");
+    try {
+      const respuesta = await apiProveedores.actualizarProveedor(
+        proveedor.id,
+        data
+      );
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Proveedor actualizado correctamente");
+      setOpen(false);
       obtenerProveedores();
-    setOpen(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -76,20 +97,20 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
       <DialogTrigger asChild>
         <UpdateButtonComponent onClick={() => form.reset()} />
       </DialogTrigger>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="overflow-auto">
         <Form {...form}>
           <form
-            className="flex flex-col gap-y-3"
+            className="w-[98vw] h-[98vh] max-w-lg"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <Card className="w-full max-w-md bg-white shadow-lg rounded-lg">
+            <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl text-center">
                   Editar Proveedor
                 </CardTitle>
                 <CardDescription className="text-center">
-                  Realice cambios del proveedor aquí. Haga clic en guardar cuando
-                  haya terminado.
+                  Edite un proveedor aquí. Haga clic en guardar
+                  cuando haya terminado.
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
@@ -100,10 +121,7 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>Nombre del proveedor</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Mauricio R"
-                          {...field}
-                        />
+                        <Input placeholder="Mauricio R" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -116,7 +134,11 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>RUC del proveedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="12345678901" {...field} />
+                        <Input
+                          placeholder="20600007522"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -129,7 +151,24 @@ export default function BotonEditar({ proveedor, obtenerProveedores }) {
                     <FormItem>
                       <FormLabel>Teléfono del proveedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="999888777" {...field} />
+                        <Input placeholder="4746922" {...field} type="number" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="celular"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Celular del proveedor</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="915115894"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

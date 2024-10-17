@@ -30,7 +30,7 @@ export default function BotonSeleccionarProveedor({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="flex-1 justify-between font-medium"
+          className="flex-1"
         >
           {proveedor
             ? proveedores.find(
@@ -50,11 +50,11 @@ export default function BotonSeleccionarProveedor({
                 <CommandItem
                   key={proveedorPivote.id}
                   value={proveedorPivote}
-                  onSelect={(proveedorNombre) => {
+                  onSelect={(nombreProveedor) => {
                     setProveedor(
-                      proveedorNombre === proveedorPivote.nombre
-                        ? ""
-                        : proveedorPivote
+                      nombreProveedor === proveedorPivote.nombre
+                        ? proveedorPivote
+                        : ""
                     );
                     setOpen(false);
                   }}

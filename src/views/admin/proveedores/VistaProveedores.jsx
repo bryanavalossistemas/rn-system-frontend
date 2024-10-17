@@ -50,6 +50,11 @@ export default function VistaProveedores() {
       cell: ({ row }) => row.getValue("telefono"),
     },
     {
+      accessorKey: "celular",
+      header: "Celular",
+      cell: ({ row }) => row.getValue("celular"),
+    },
+    {
       accessorKey: "direccion",
       header: "Dirección",
       cell: ({ row }) => row.getValue("direccion"),

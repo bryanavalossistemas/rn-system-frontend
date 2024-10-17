@@ -42,7 +42,7 @@ export default function BotonEditar({ marca, obtenerMarcas }) {
 
   async function handleSubmit(data) {
     try {
-      const respuesta = await apiMarcas.actualizarMarca(marca.id, data);
+      const respuesta = await await apiMarcas.actualizarMarca(marca.id, data);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;
@@ -53,7 +53,6 @@ export default function BotonEditar({ marca, obtenerMarcas }) {
     } catch (error) {
       toast.error(error.message);
     }
-
   }
 
   return (

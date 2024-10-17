@@ -50,9 +50,9 @@ export default function VistaVendedores() {
       cell: ({ row }) => row.getValue("dni"),
     },
     {
-      accessorKey: "telefono",
-      header: "Teléfono",
-      cell: ({ row }) => row.getValue("telefono"),
+      accessorKey: "celular",
+      header: "Celular",
+      cell: ({ row }) => row.getValue("celular"),
     },
     {
       id: "actions",

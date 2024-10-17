@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "../public/components/Footer";
 
-export default function AdminLayout() {
+export default function VendedorLayout() {
   return (
     <div className="h-lvh flex flex-col">
       <Header />

@@ -43,7 +43,7 @@ export default function BotonCrear({ obtenerMarcas }) {
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await apiMarcas.crearMarca(datos);
+      const respuesta = await await apiMarcas.crearMarca(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;

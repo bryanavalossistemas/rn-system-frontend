@@ -45,8 +45,17 @@ export default function BotonCrear({ obtenerProveedores }) {
           ),
         telefono: z.coerce
           .number({
-            required_error: "El telefono del proveedor es requerido",
-            invalid_type_error: "El telefono del proveedor debe ser un número",
+            required_error: "El teléfono del proveedor es requerido",
+            invalid_type_error: "El teléfono del proveedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 7,
+            "El teléfono del proveedor debe tener 7 dígitos"
+          ),
+        celular: z.coerce
+          .number({
+            required_error: "El celular del proveedor es requerido",
+            invalid_type_error: "El celular del proveedor debe ser un número",
           })
           .refine(
             (val) => `${val}`.length === 9,
@@ -61,13 +70,14 @@ export default function BotonCrear({ obtenerProveedores }) {
       nombre: "",
       ruc: "",
       telefono: "",
+      celular: "",
       direccion: "",
     },
   });
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await apiProveedores.crearProveedor(datos);
+      const respuesta = await await apiProveedores.crearProveedor(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;
@@ -85,13 +95,13 @@ export default function BotonCrear({ obtenerProveedores }) {
       <DialogTrigger asChild>
         <AddButton onClick={() => form.reset()} />
       </DialogTrigger>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="overflow-auto">
         <Form {...form}>
           <form
-            className="flex flex-col gap-y-3"
+            className="w-[98vw] h-[98vh] max-w-lg"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <Card className="w-full max-w-md bg-white shadow-lg rounded-lg border">
+            <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl text-center">
                   Crear Proveedor
@@ -140,6 +150,23 @@ export default function BotonCrear({ obtenerProveedores }) {
                       <FormLabel>Teléfono del proveedor</FormLabel>
                       <FormControl>
                         <Input placeholder="4746922" {...field} type="number" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="celular"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Celular del proveedor</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="915115894"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

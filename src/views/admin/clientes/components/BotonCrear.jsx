@@ -34,14 +34,14 @@ export default function BotonCrear({ obtenerClientes }) {
         nombre: z.string().min(1, {
           message: "El nombre del cliente es requerido",
         }),
-        telefono: z.coerce
+        celular: z.coerce
           .number({
-            required_error: "El teléfono del cliente es requerido",
-            invalid_type_error: "El teléfono del cliente debe ser un número",
+            required_error: "El celular del cliente es requerido",
+            invalid_type_error: "El celular del cliente debe ser un número",
           })
           .refine(
             (val) => `${val}`.length === 9,
-            "El teléfono del cliente debe tener 9 dígitos"
+            "El celular del cliente debe tener 9 dígitos"
           ),
         ruc: z.coerce
           .number({
@@ -57,6 +57,7 @@ export default function BotonCrear({ obtenerClientes }) {
     defaultValues: {
       nombre: "",
       telefono: "",
+      celular: "",
       ruc: "",
     },
   });
@@ -116,16 +117,12 @@ export default function BotonCrear({ obtenerClientes }) {
                 />
                 <FormField
                   control={form.control}
-                  name="telefono"
+                  name="celular"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del cliente</FormLabel>
+                      <FormLabel>Celular del cliente</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="915115894"
-                          {...field}
-                          type="number"
-                        />
+                        <Input placeholder="915115894" {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

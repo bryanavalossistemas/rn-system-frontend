@@ -32,7 +32,7 @@ export default function BotonCrear({ obtenerCategorias }) {
     resolver: zodResolver(
       z.object({
         nombre: z.string().min(1, {
-          message: "El nombre de la categoria es requerido",
+          message: "El nombre de la categoría es requerido",
         }),
       })
     ),
@@ -43,7 +43,7 @@ export default function BotonCrear({ obtenerCategorias }) {
 
   async function handleSubmit(datos) {
     try {
-      const respuesta = await apiCategorias.crearCategoria(datos);
+      const respuesta = await await apiCategorias.crearCategoria(datos);
       if (!respuesta.ok) {
         toast.error(respuesta.message);
         return;
@@ -85,7 +85,10 @@ export default function BotonCrear({ obtenerCategorias }) {
                     <FormItem>
                       <FormLabel>Nombre de la Categoria</FormLabel>
                       <FormControl>
-                        <Input placeholder="Categoria" {...field} />
+                        <Input
+                          placeholder="Categoria"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

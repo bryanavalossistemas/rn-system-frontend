@@ -33,26 +33,49 @@ export default function BotonEditar({ cliente, obtenerClientes }) {
         nombre: z.string().min(1, {
           message: "El nombre del cliente es requerido",
         }),
-        telefono: z.coerce.string()
-          .length(9, { message: "El teléfono debe tener exactamente 9 dígitos" })
-          .regex(/^\d+$/, { message: "El teléfono debe ser numérico" }),
-        ruc: z.coerce.string()
-          .length(11, { message: "El RUC debe tener exactamente 11 dígitos" })
-          .regex(/^\d+$/, { message: "El RUC debe ser numérico" }),
+        celular: z.coerce
+          .number({
+            required_error: "El celular del cliente es requerido",
+            invalid_type_error: "El celular del cliente debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 9,
+            "El celular del cliente debe tener 9 dígitos"
+          ),
+        ruc: z.coerce
+          .number({
+            required_error: "El RUC del cliente es requerido",
+            invalid_type_error: "El RUC del cliente debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 11,
+            "El RUC del cliente debe tener 11 dígitos"
+          ),
       })
     ),
     values: {
       nombre: cliente.nombre,
-      telefono: cliente.telefono,
-      ruc: cliente.ruc
+      celular: cliente.celular,
+      ruc: cliente.ruc,
     },
   });
 
   async function handleSubmit(data) {
-    await apiClientes.actualizarCliente(cliente.id, data);
-    toast.success("cliente actualizado correctamente");
-    obtenerClientes();
-    setOpen(false);
+    try {
+      const respuesta = await await apiClientes.actualizarCliente(
+        cliente.id,
+        data
+      );
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Cliente actualizado correctamente");
+      setOpen(false);
+      obtenerClientes();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -93,10 +116,10 @@ export default function BotonEditar({ cliente, obtenerClientes }) {
                 />
                 <FormField
                   control={form.control}
-                  name="telefono"
+                  name="celular"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del cliente</FormLabel>
+                      <FormLabel>Celular del cliente</FormLabel>
                       <FormControl>
                         <Input placeholder="915115894" {...field} />
                       </FormControl>

@@ -42,7 +42,7 @@ export default function BotonCrearVenta({ cliente, setCliente }) {
   return (
     <>
       <Button
-        className="h-12 transition-all text-base"
+        className="h-10 transition-all text-sm"
         type="button"
         onClick={registrarVenta}
       >

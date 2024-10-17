@@ -60,7 +60,7 @@ export default function BotonDeLogin() {
           if (respuesta.rolId === 1) {
             return navigate("/administrador/dashboard");
           } else {
-            return navigate("/vendedor/dashboard");
+            return navigate("/vendedor/ventas");
           }
         }
       }
@@ -82,7 +82,7 @@ export default function BotonDeLogin() {
       if (respuesta.rolId === 1) {
         return navigate("/administrador/dashboard");
       }
-      return navigate("/vendedor/dashboard");
+      return navigate("/vendedor/ventas");
     } catch (error) {
       toast.error(
         "Error al conectarse al servidor. Contacte con sistemas, gracias."

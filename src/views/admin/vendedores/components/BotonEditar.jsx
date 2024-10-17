@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { UpdateButton as UpdateButtonComponent } from "./UpdateButton";
 import { z } from "zod";
-import apiAdministrador from "@/api/Administrador";
+import apiVendedores from "@/api/Vendedores";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Form,
@@ -36,13 +36,27 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
         usuario: z.string().min(1, {
           message: "El nombre de usuario del vendedor es requerido",
         }),
-        contrasenia: z.string(),
-        dni: z.string().min(1, {
-          message: "El dni del vendedor es requerido",
+        contrasenia: z.string().min(1, {
+          message: "La contraseña del vendedor es requerida",
         }),
-        telefono: z.string().min(1, {
-          message: "El teléfono del vendedor es requerido",
-        }),
+        dni: z.coerce
+          .number({
+            required_error: "El DNI del vendedor es requerido",
+            invalid_type_error: "El DNI del vendedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 8,
+            "El DNI del vendedor debe tener 8 dígitos"
+          ),
+        celular: z.coerce
+          .number({
+            required_error: "El celular del vendedor es requerido",
+            invalid_type_error: "El celular del vendedor debe ser un número",
+          })
+          .refine(
+            (val) => `${val}`.length === 9,
+            "El celular del vendedor debe tener 9 dígitos"
+          ),
       })
     ),
     values: {
@@ -50,16 +64,26 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
       usuario: vendedor.usuario,
       contrasenia: "",
       dni: vendedor.dni,
-      telefono: vendedor.telefono,
+      celular: vendedor.celular,
     },
   });
 
   async function handleSubmit(data) {
-    console.log(data);
-    await apiAdministrador.actualizarVendedor(vendedor.id, data);
-    toast.success("Vendedor actualizado correctamente");
-    obtenerVendedores();
-    setOpen(false);
+    try {
+      const respuesta = await apiVendedores.actualizarVendedor(
+        vendedor.id,
+        data
+      );
+      if (!respuesta.ok) {
+        toast.error(respuesta.message);
+        return;
+      }
+      toast.success("Vendedor actualizado correctamente");
+      setOpen(false);
+      obtenerVendedores();
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
 
   return (
@@ -139,7 +163,11 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
                     <FormItem>
                       <FormLabel>DNI del vendedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="75013015" {...field} />
+                        <Input
+                          placeholder="75013015"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,12 +175,16 @@ export default function BotonEditar({ vendedor, obtenerVendedores }) {
                 />
                 <FormField
                   control={form.control}
-                  name="telefono"
+                  name="celular"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono del vendedor</FormLabel>
+                      <FormLabel>Celular del vendedor</FormLabel>
                       <FormControl>
-                        <Input placeholder="915115894" {...field} />
+                        <Input
+                          placeholder="915115894"
+                          {...field}
+                          type="number"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
